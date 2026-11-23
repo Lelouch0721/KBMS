@@ -1,0 +1,46 @@
+{
+  "menu": [
+    {
+      "url": "/dashboard",
+      "name": "Dashboard",
+      "icon": "menu-icon tf-icons bx bx-home",
+      "slug": "dashboard"
+    },
+    {
+      "url": "/users",
+      "name": "Accounts",
+      "icon": "menu-icon tf-icons bx bx-user",
+      "slug": "users"
+    },
+    {
+      "menuHeader": "Key and Remote"
+    },
+    {
+      "url": "/key",
+      "name": "Manage Items",
+      "icon": "menu-icon tf-icons bx bx-plus-circle",
+      "slug": "key"
+    },
+    {
+      "icon": "menu-icon tf-icons bx bx-box",
+      "url": "/borrow/manage",
+      "name": "Borrowed Items",
+      "slug": "borrow-manage"
+    },
+    {
+      "icon": "menu-icon tf-icons bx bx-left-arrow-alt",
+      "url": "/borrow/history",
+      "name": "Returned Items",
+      "slug": "borrow-history"
+    },
+    {
+      "menuHeader": "User App"
+    },
+    {
+      "icon": "menu-icon tf-icons bx bx-mobile",
+      "url": "/user_pages/dashboard_user",
+      "name": "Access User App",
+      "slug": "user-app"
+    }
+  ]
+}

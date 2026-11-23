@@ -1,0 +1,105 @@
+/**
+ * Main
+ */
+'use strict';
+
+// Global variables for menu and animation
+let menu, animate;
+
+// Self-invoking function for initialization
+(function () {
+  // Initialize the menu
+  let layoutMenuEl = document.querySelectorAll('#layout-menu');
+  layoutMenuEl.forEach(function (element) {
+    menu = new Menu(element, {
+      orientation: 'vertical',
+      closeChildren: false
+    });
+    
+    // Set scroll animation (change 'animate' to true if needed)
+    window.Helpers.scrollToActive((animate = false));
+    window.Helpers.mainMenu = menu;
+  });
+
+  // Initialize menu togglers and bind click events
+  let menuToggler = document.querySelectorAll('.layout-menu-toggle');
+  menuToggler.forEach(item => {
+    item.addEventListener('click', event => {
+      event.preventDefault();
+      window.Helpers.toggleCollapsed();
+    });
+  });
+
+  // Display menu toggle on hover with delay (not for small screens)
+  let delay = function (elem, callback) {
+    let timeout = null;
+    elem.onmouseenter = function () {
+      if (!Helpers.isSmallScreen()) {
+        timeout = setTimeout(callback, 300);
+      } else {
+        timeout = setTimeout(callback, 0);
+      }
+    };
+
+    elem.onmouseleave = function () {
+      document.querySelector('.layout-menu-toggle').classList.remove('d-block');
+      clearTimeout(timeout);
+    };
+  };
+
+  if (document.getElementById('layout-menu')) {
+    delay(document.getElementById('layout-menu'), function () {
+      if (!Helpers.isSmallScreen()) {
+        document.querySelector('.layout-menu-toggle').classList.add('d-block');
+      }
+    });
+  }
+
+  // Handle menu shadow display during scroll
+  let menuInnerContainer = document.getElementsByClassName('menu-inner');
+  let menuInnerShadow = document.getElementsByClassName('menu-inner-shadow')[0];
+  if (menuInnerContainer.length > 0 && menuInnerShadow) {
+    menuInnerContainer[0].addEventListener('ps-scroll-y', function () {
+      if (this.querySelector('.ps__thumb-y')?.offsetTop) {
+        menuInnerShadow.style.display = 'block';
+      } else {
+        menuInnerShadow.style.display = 'none';
+      }
+    });
+  }
+
+  // Initialize tooltips using Bootstrap
+  const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+    new bootstrap.Tooltip(tooltipTriggerEl);
+  });
+
+  // Manage accordion active class based on collapse event
+  const accordionActiveFunction = function (e) {
+    if (e.type === 'show.bs.collapse') {
+      e.target.closest('.accordion-item').classList.add('active');
+    } else {
+      e.target.closest('.accordion-item').classList.remove('active');
+    }
+  };
+
+  const accordionTriggerList = [].slice.call(document.querySelectorAll('.accordion'));
+  accordionTriggerList.forEach(function (accordionTriggerEl) {
+    accordionTriggerEl.addEventListener('show.bs.collapse', accordionActiveFunction);
+    accordionTriggerEl.addEventListener('hide.bs.collapse', accordionActiveFunction);
+  });
+
+  // Automatically update layout based on screen size
+  window.Helpers.setAutoUpdate(true);
+
+  // Toggle password visibility
+  window.Helpers.initPasswordToggle();
+
+  // Initialize speech-to-text functionality
+  window.Helpers.initSpeechToText();
+
+  // Manage menu state (expanded/collapsed) using templateCustomizer & local storage
+  if (!window.Helpers.isSmallScreen()) {
+    window.Helpers.setCollapsed(true, false);
+  }
+})();
