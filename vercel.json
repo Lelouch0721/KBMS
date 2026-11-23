@@ -1,8 +1,8 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "$schema": "https://vercel.sh",
   "version": 2,
   "framework": null,
-  "buildCommand": null,
+  "buildCommand": "echo 'Skipping build'",
   "outputDirectory": "public",
   "functions": {
     "api/lambda.php": {
